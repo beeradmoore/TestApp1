@@ -24,13 +24,9 @@ jobs:
         nuget restore TestApp1/TestApp1.Android/TestApp1.Android.csproj
 
     - name: Build
-      run: msbuild TestApp1/TestApp1.Android/TestApp1.Android.csproj /t:PackageForAndroid /p:Configuration=Release
-
-    - name: Rename
-      run: mv TestApp1/TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.apk TestApp1/TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}.apk
-
-    - name: Upload
+    - run: msbuild TestApp1/TestApp1.Android/TestApp1.Android.csproj /t:PackageForAndroid /p:Configuration=Release
+    - run: mv TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.apk TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}.apk
     - uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: TestApp1/TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}.apk
+        path: TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}.apk
