@@ -26,11 +26,10 @@ jobs:
     - name: Build
       run: |
         msbuild TestApp1/TestApp1.Android/TestApp1.Android.csproj /t:PackageForAndroid /p:Configuration=Release
-        pwd
-        mv TestApp1/TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
+        mv TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
 
     - name: Upload build 
       uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: TestApp1/TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}.apk
+        path: TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
