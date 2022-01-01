@@ -26,7 +26,7 @@ jobs:
     - name: Build
       run: |
         msbuild TestApp1/TestApp1.Android/TestApp1.Android.csproj /t:PackageForAndroid /p:Configuration=Release
-        copy TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
+        cp TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
     
     - name: Sign build
       run: |
