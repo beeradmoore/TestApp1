@@ -33,6 +33,7 @@ jobs:
         $ANDROID_HOME/build-tools/32.0.0/zipalign -p -f -v 4 TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-aligned.apk 
         tmp_keystore=$(mktemp /tmp/android_app_temp.keystore)
         echo cat ${{ secrets.ANDROID_KEYSTORE_FILE_BASE64 }} | base64 --decode > $tmp_keystore
+        cat $tmp_keystore
         $ANDROID_HOME/build-tools/32.0.0/apksigner sign --ks $tmp_keystore --ks-pass pass:${{ secrets.ANDROID_KEYSTORE_PASSWORD }} --ks-key-alias ${{ secrets.ANDROID_KEYSTORE_ALIAS }} --key-pass pass:${{ secrets.ANDROID_KEY_PASSWORD }} -verbose --out TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-signed.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-aligned.apk
 
     - name: Upload build 
