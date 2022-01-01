@@ -1,6 +1,6 @@
 name: Build Xamarin.iOS app
 
-on: [workflow_dispatch]
+on: [push]
 
 jobs:
   build:
@@ -13,21 +13,24 @@ jobs:
       run: |
         $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.12 --ios=15.2
     
-    - name: Set default Xcode 13.1
+    - name: Set default Xcode 13.2.1
       run: |
-        XCODE_ROOT=/Applications/Xcode_13.1.app
+        XCODE_ROOT=/Applications/Xcode_13.2.1.app
         echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
         sudo xcode-select -s $XCODE_ROOT
 
-    - name: Setup .NET Core SDK 5.0.x
+    - name: Setup .NET Core SDK 3.1.x
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.x'
+        dotnet-version: '3.1.x'
 
     - name: Install dependencies
       run: |
         nuget restore TestApp1/TestApp1/TestApp1.csproj
         nuget restore TestApp1/TestApp1.iOS/TestApp1.iOS.csproj
 
+    - name: Tests
+      run: security 
+      
     - name: Build
       run: msbuild TestApp1/TestApp1.iOS/TestApp1.iOS.csproj /p:Configuration=Release /p:Platform=iPhone /t:Rebuild
