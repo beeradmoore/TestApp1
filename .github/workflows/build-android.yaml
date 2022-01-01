@@ -30,8 +30,7 @@ jobs:
     
     - name: Sign build
       run: |
-        zipalign -p -f -v 4 TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-aligned.apk
-
+        $ANDROID_HOME/build-tools/32.0.0/zipalign -p -f -v 4 TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-aligned.apk
 
     - name: Upload build 
       uses: actions/upload-artifact@v2
