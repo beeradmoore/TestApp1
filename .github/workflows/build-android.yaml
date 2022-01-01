@@ -26,10 +26,18 @@ jobs:
     - name: Build
       run: |
         msbuild TestApp1/TestApp1.Android/TestApp1.Android.csproj /t:PackageForAndroid /p:Configuration=Release
-        mv TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
+        copy TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
+    
+    - name: Sign build
+      run: |
+        zipalign -p -f -v 4 TestApp1/TestApp1.Android/bin/Release/com.beeradmoore.testapp1.apk TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-aligned.apk
+
 
     - name: Upload build 
       uses: actions/upload-artifact@v2
       with:
-        name: my-artifact
-        path: TestApp1/TestApp1.Android/obj/Release/android/bin/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
+        name: TestApp1-build-${{ github.run_number }}
+        path: |
+          TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-unsigned.apk
+          TestApp1/TestApp1.Android/obj/Release/com.beeradmoore.testapp1.${{ github.run_number }}-aligned.apk
+
