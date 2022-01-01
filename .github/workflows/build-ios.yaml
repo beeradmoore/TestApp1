@@ -11,6 +11,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set default Xamarin SDK versions
       run: |
+        ls -la /Library/Frameworks/Mono.framework/Versions
+        ls -la /Library/Frameworks/Xamarin.iOS.framework/Versions
+        ls -la /Library/Frameworks/Xamarin.Android.framework/Versions
+        ls -la /Library/Frameworks/Xamarin.Mac.framework/Versions        
         $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.12 --ios=15.2
     
     - name: Set default Xcode 13.2.1
@@ -31,6 +35,6 @@ jobs:
 
     - name: Tests
       run: security 
-      
+
     - name: Build
       run: msbuild TestApp1/TestApp1.iOS/TestApp1.iOS.csproj /p:Configuration=Release /p:Platform=iPhone /t:Rebuild
